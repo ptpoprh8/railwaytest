@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_db
+    environment:
+      DATABASE_URL: "host=database user=postgres password=123456 dbname=universal sslmode=disable"
+
+  postgres_db:
+    container_name: postgre-docker
+    image: postgres:14
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=universal
+    ports:
+      - "5433:5432"
+    networks:
+      - universal_network
+    restart: always
+
+networks:
+  universal_network:
